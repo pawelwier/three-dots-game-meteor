@@ -4,7 +4,7 @@ import '../imports/api/publications'
 
 const MAX_X = 8
 const MAX_Y = 6
-const COLORS = 4
+const COLORS = 5
 
 const getRandomDotType = () => Math.floor(Math.random() * COLORS)
 

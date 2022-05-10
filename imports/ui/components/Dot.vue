@@ -11,10 +11,14 @@ export default {
       required: true,
     }
   },
+  data() {
+    return {
+      dotColors: ['yellow', 'green', 'blue', 'purple', 'red']
+    }
+  },
   computed: {
     dotColor() {
-      const type = this.dotType
-      return !type ? 'yellow' : type === 1 ? 'green' : type === 2 ? 'blue' : 'red'
+      return this.dotColors[this.dotType]
     },
   }
 }
@@ -37,5 +41,8 @@ export default {
 }
 .blue {
   background-color: rgb(25, 37, 143);
+}
+.purple {
+  background-color: rgb(117, 25, 143);
 }
 </style>

@@ -17,6 +17,13 @@ Meteor.methods({
       FieldCollection.remove({})
     }
   },
+  'field.updateTypeById'(_id, type) {
+    FieldCollection.update({_id}, {
+      $set: {
+        type,
+      }
+    })
+  },
   'field.highlightThrees'(colCount, rowCount) {
     const fields = FieldCollection.find({}).fetch().map(({x, y, type}) => ({x, y, type}))
     const rows = []
@@ -34,7 +41,6 @@ Meteor.methods({
             for (const pos of [0, 1, 2]) {
               FieldCollection.update({x: ind, y: field.y + pos}, {
                 $set: {isHighlighted: true}
-
               })
             }
           }
@@ -54,6 +60,7 @@ Meteor.methods({
             for (const pos of [0, 1, 2]) {
               FieldCollection.update({x: field.x + pos, y: ind}, {
                 $set: {isHighlighted: true}
+              
               })
             }
           }
