@@ -1,16 +1,15 @@
 <template>
-<div>
-  <div 
-    v-if="fields"
-    class="fields-container"
-  >
+<div v-if="fields && config">
+  <div class="fields-container">
     <div
       v-for="(field, i) in fields"
       :key="i"
       :class="[
-      field.isHighlighted ? 'highlighted' 
-        : isSelected && field._id === isSelected._id ? 'selected' : '', 
-          'dot-container']"
+        field.isHighlighted ? 'highlighted' : '',
+          isSelected && field._id === isSelected._id ? 'selected' 
+            : '', 
+        'dot-container'
+      ]"
       @click="onDotClick(field)"
     >
       <Dot
@@ -20,18 +19,23 @@
   </div>
   <div>
     {{fieldsHighlighted}} / {{rows * columns}} = {{Math.round(fieldsHighlighted / (rows * columns) * 100)}}%
+    moves: {{config.moves}}
   </div>
+  <RefreshGameButton />
 </div>
 </template>
 
 <script>
 import {Meteor} from 'meteor/meteor'
 import Dot from './components/Dot.vue'
+import RefreshGameButton from './components/RefreshGameButton.vue'
 import {FieldCollection} from '../db/collections/FieldCollection'
+import {GameConfigCollection} from '../db/collections/GameConfigCollection'
 
 export default {
   components: {
     Dot,
+    RefreshGameButton,
   },
   data() {
     return {
@@ -54,17 +58,22 @@ export default {
       Meteor.call('field.updateTypeById', this.isSelected._id, field.type)
       this.isSelected = null
       Meteor.call('field.highlightThrees', this.columns, this.rows)
+      Meteor.call('config.addMove')
     },
   },
   meteor: {
   $subscribe: {
     'fields': [],
+    'config': [],
   },
   fields() {
     return FieldCollection.find({}).fetch()
   },
   fieldsHighlighted() {
     return FieldCollection.find({isHighlighted: true}).count()
+  },
+  config() {
+    return GameConfigCollection.findOne({name: 'game'})
   },
 },
 }
@@ -84,7 +93,7 @@ export default {
     background-color: black;
   }
   .selected {
-    background-color: rgb(201, 186, 52);
+    border: 3px solid rgb(201, 186, 52);
   }
   .dot-container {
     display: flex;
