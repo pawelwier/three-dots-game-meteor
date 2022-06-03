@@ -1,93 +1,31 @@
 <template>
-<div v-if="fields && config">
-  <div>Logged in as: <strong>{{user}}</strong></div>
-  <LoginForm v-if="!user" />
-  <div v-else>
-    <div class="fields-container">
-      <div
-        v-for="(field, i) in fields"
-        :key="i"
-        :class="[
-          field.isHighlighted ? 'highlighted' : '',
-            isSelected && field._id === isSelected._id ? 'selected' 
-              : '', 
-          'dot-container'
-        ]"
-        @click="onDotClick(field)"
-      >
-        <Dot
-          :dotType="field.type"
-        />
-      </div>
-    </div>
-    <div>
-      {{fieldsHighlighted}} / {{rows * columns}} = {{Math.round(fieldsHighlighted / (rows * columns) * 100)}}%
-      moves: {{config.moves}}
-    </div>
-    <RefreshGameButton />
+  <div>
+    {{user}}
+    <HeaderBar :user="user"/>
+    <Board />
+    <LoginForm/>
   </div>
-</div>
 </template>
 
 <script>
 import {Meteor} from 'meteor/meteor'
-import Dot from './components/Dot.vue'
-import RefreshGameButton from './components/RefreshGameButton.vue'
 import LoginForm from './components/LoginForm.vue'
-import {FieldCollection} from '../db/collections/FieldCollection'
-import {GameConfigCollection} from '../db/collections/GameConfigCollection'
+import HeaderBar from './components/HeaderBar.vue'
+import Board from './components/Board.vue'
 
 export default {
   components: {
-    Dot,
-    RefreshGameButton,
-    LoginForm
-},
-  data() {
-    return {
-      isSelected: null,
-      rows: 6,
-      columns: 8,
-    }
+    LoginForm,
+    HeaderBar,
+    Board
   },
   computed: {
     user() {
       const user = Meteor.user()
+      console.log(user)
       return user ? user.emails[0].address : null
     }
   },
-  methods: {
-    onDotClick(field) {
-      if (!this.isSelected) {
-        this.isSelected = field
-        return
-      }
-      if (this.isSelected._id === field._id) {
-        this.isSelected = null
-        return
-      }
-      Meteor.call('field.updateTypeById', field._id, this.isSelected.type)
-      Meteor.call('field.updateTypeById', this.isSelected._id, field.type)
-      this.isSelected = null
-      Meteor.call('field.highlightThrees', this.columns, this.rows)
-      Meteor.call('config.addMove')
-    },
-  },
-  meteor: {
-  $subscribe: {
-    'fields': [],
-    'config': [],
-  },
-  fields() {
-    return FieldCollection.find({}).fetch()
-  },
-  fieldsHighlighted() {
-    return FieldCollection.find({isHighlighted: true}).count()
-  },
-  config() {
-    return GameConfigCollection.findOne({name: 'game'})
-  },
-},
 }
 </script>
 
@@ -95,21 +33,5 @@ export default {
   body {
     font-family: sans-serif;
     padding: 10px;
-  }
-  .fields-container {
-    display: grid;
-    grid-template-columns: repeat(8, 46px);
-    grid-template-rows: repeat(6, 46px);
-  }
-  .highlighted {
-    background-color: black;
-  }
-  .selected {
-    border: 3px solid rgb(201, 186, 52);
-  }
-  .dot-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 </style>

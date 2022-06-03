@@ -39,8 +39,8 @@ export default {
         console.log('incorrect data')
         return
       }
-      console.log('ok')
-    })
+        console.log('ok')
+      })
       // Meteor.call('auth.login')
       // console.log(this.inputData)
     },
