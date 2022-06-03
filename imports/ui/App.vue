@@ -1,27 +1,31 @@
 <template>
 <div v-if="fields && config">
-  <div class="fields-container">
-    <div
-      v-for="(field, i) in fields"
-      :key="i"
-      :class="[
-        field.isHighlighted ? 'highlighted' : '',
-          isSelected && field._id === isSelected._id ? 'selected' 
-            : '', 
-        'dot-container'
-      ]"
-      @click="onDotClick(field)"
-    >
-      <Dot
-        :dotType="field.type"
-      />
+  <div>Logged in as: <strong>{{user}}</strong></div>
+  <LoginForm v-if="!user" />
+  <div v-else>
+    <div class="fields-container">
+      <div
+        v-for="(field, i) in fields"
+        :key="i"
+        :class="[
+          field.isHighlighted ? 'highlighted' : '',
+            isSelected && field._id === isSelected._id ? 'selected' 
+              : '', 
+          'dot-container'
+        ]"
+        @click="onDotClick(field)"
+      >
+        <Dot
+          :dotType="field.type"
+        />
+      </div>
     </div>
+    <div>
+      {{fieldsHighlighted}} / {{rows * columns}} = {{Math.round(fieldsHighlighted / (rows * columns) * 100)}}%
+      moves: {{config.moves}}
+    </div>
+    <RefreshGameButton />
   </div>
-  <div>
-    {{fieldsHighlighted}} / {{rows * columns}} = {{Math.round(fieldsHighlighted / (rows * columns) * 100)}}%
-    moves: {{config.moves}}
-  </div>
-  <RefreshGameButton />
 </div>
 </template>
 
@@ -29,6 +33,7 @@
 import {Meteor} from 'meteor/meteor'
 import Dot from './components/Dot.vue'
 import RefreshGameButton from './components/RefreshGameButton.vue'
+import LoginForm from './components/LoginForm.vue'
 import {FieldCollection} from '../db/collections/FieldCollection'
 import {GameConfigCollection} from '../db/collections/GameConfigCollection'
 
@@ -36,12 +41,19 @@ export default {
   components: {
     Dot,
     RefreshGameButton,
-  },
+    LoginForm
+},
   data() {
     return {
       isSelected: null,
       rows: 6,
       columns: 8,
+    }
+  },
+  computed: {
+    user() {
+      const user = Meteor.user()
+      return user ? user.emails[0].address : null
     }
   },
   methods: {
