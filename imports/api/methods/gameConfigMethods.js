@@ -7,8 +7,10 @@ Meteor.methods({
       name: 'game'
     })
   },
-  'config.createConfig'() {
+  'config.createConfig'(columns, rows) {
     GameConfigCollection.insert({
+      columns,
+      rows,
       name: 'game',
       moves: 0,
     })
