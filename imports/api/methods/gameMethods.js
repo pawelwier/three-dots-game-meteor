@@ -1,5 +1,6 @@
 import {Meteor} from 'meteor/meteor'
 import '../methods'
+import { addResult } from './resultMethods'
 
 const MAX_X = 8
 const MAX_Y = 6
@@ -26,6 +27,22 @@ Meteor.methods({
     getBoard()
     Meteor.call('field.highlightThrees', MAX_X, MAX_Y)
     Meteor.call('config.clearConfig')
-    Meteor.call('config.createConfig')
+    Meteor.call('config.createConfig', MAX_X, MAX_Y)
+  },
+  'game.completeGame'() {
+    const config = Meteor.call('config.getGameConfig')
+    const {moves, mode, rows, columns} = config
+    
+    const h = Meteor.call('field.getHighlightCount')
+    console.log(h)
+    console.log(rows, columns)
+
+    if (rows * columns !== h) return
+
+    addResult({
+      points: moves,
+      player: Meteor.user(),
+      mode: mode || 0,
+    })
   },
 })

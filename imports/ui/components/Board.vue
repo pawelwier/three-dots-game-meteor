@@ -1,27 +1,32 @@
 <template>
-  <div v-if="fields && config">
-    <div class="fields-container">
-      <div
-        v-for="(field, i) in fields"
-        :key="i"
-        :class="[
-          field.isHighlighted ? 'highlighted' : '',
-            isSelected && field._id === isSelected._id ? 'selected' 
-              : '', 
-          'dot-container'
-        ]"
-        @click="onDotClick(field)"
-      >
-        <Dot
-          :dotType="field.type"
-        />
-      </div>
-    </div>
+  <div 
+    class="fields-wrapper"  
+    v-if="fields && config"
+  >
     <div>
-      {{fieldsHighlighted}} / {{rows * columns}} = {{Math.round(fieldsHighlighted / (rows * columns) * 100)}}%
-      moves: {{config.moves}}
+      <div class="fields-container">
+        <div
+          v-for="(field, i) in fields"
+          :key="i"
+          :class="[
+            field.isHighlighted ? 'highlighted' : '',
+              isSelected && field._id === isSelected._id ? 'selected' 
+                : '', 
+            'dot-container'
+          ]"
+          @click="onDotClick(field)"
+        >
+          <Dot
+            :dotType="field.type"
+          />
+        </div>
+      </div>
+      <div>
+        {{fieldsHighlighted}} / {{gridSize}} = {{Math.round(fieldsHighlighted / (gridSize) * 100)}}%
+        moves: {{config.moves}}
+      </div>
+      <RefreshGameButton />
     </div>
-    <RefreshGameButton />
   </div>
 </template>
 
@@ -40,8 +45,6 @@ export default {
   data() {
     return {
       isSelected: null,
-      rows: 6,
-      columns: 8,
     }
   },
   methods: {
@@ -57,8 +60,12 @@ export default {
       Meteor.call('field.updateTypeById', field._id, this.isSelected.type)
       Meteor.call('field.updateTypeById', this.isSelected._id, field.type)
       this.isSelected = null
-      Meteor.call('field.highlightThrees', this.columns, this.rows)
+      Meteor.call('field.highlightThrees', this.config.columns, this.config.rows)
       Meteor.call('config.addMove')
+      this.checkBoardComplete()
+    },
+    checkBoardComplete() {
+      Meteor.call('game.completeGame')
     },
   },
   meteor: {
@@ -73,13 +80,29 @@ export default {
       return FieldCollection.find({isHighlighted: true}).count()
     },
     config() {
-      return GameConfigCollection.findOne({name: 'game'})
+      const config = GameConfigCollection.findOne({name: 'game'})
+      if (!this.$subReady.config) return
+      const {moves, rows, columns} = config
+      return {
+        moves,
+        rows,
+        columns,
+      }
+    },
+    gridSize() {
+      if (!this.$subReady.config) return
+      const {rows, columns} = this.config
+      return rows * columns
     },
   },
 }
 </script>
 
 <style>
+  .fields-wrapper {
+    display: flex;
+    justify-content: center;
+  }
   .fields-container {
     display: grid;
     grid-template-columns: repeat(8, 46px);

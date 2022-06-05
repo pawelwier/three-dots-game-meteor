@@ -7,10 +7,16 @@
       >
         <label :for="el.name">{{el.label}}</label>
         <input
+          v-if="el.type !== 'submit'"
           v-model="inputData[el.name]"
           :name="el.name"
           :type="el.type"
-          :value="el.value || null"
+        />
+        <input 
+          v-else
+          :name="el.name"
+          :type="el.type"
+          :value="el.value"
         />
       </div>
     </form>

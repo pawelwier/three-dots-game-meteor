@@ -23,6 +23,11 @@ Meteor.methods({
       }
     })
   },
+  'field.getHighlightCount'() {
+    return FieldCollection.find({
+      isHighlighted: true
+    }).count()
+  },
   'field.highlightThrees'(colCount, rowCount) {
     const fields = FieldCollection.find({}).fetch().map(({x, y, type}) => ({x, y, type}))
     const rows = []
