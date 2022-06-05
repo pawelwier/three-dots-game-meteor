@@ -4,7 +4,7 @@
       @click="onRefresh"
       class="game-button refresh-button"
     >
-      Refresh
+      New game
     </button>
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
   methods: {
     onRefresh() {
       Meteor.call('game.startGame')
+      this.$emit('hideResults')
     },
   },
 }

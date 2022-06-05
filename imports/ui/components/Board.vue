@@ -25,7 +25,7 @@
         {{fieldsHighlighted}} / {{gridSize}} = {{Math.round(fieldsHighlighted / (gridSize) * 100)}}%
         moves: {{config.moves}}
       </div>
-      <RefreshGameButton />
+      <RefreshGameButton @hideResults="$emit('toggleResults', false)" />
     </div>
   </div>
 </template>
@@ -81,7 +81,7 @@ export default {
     },
     config() {
       const config = GameConfigCollection.findOne({name: 'game'})
-      if (!this.$subReady.config) return
+      if (!config) return
       const {moves, rows, columns} = config
       return {
         moves,
@@ -90,7 +90,7 @@ export default {
       }
     },
     gridSize() {
-      if (!this.$subReady.config) return
+      if (!this.config) return
       const {rows, columns} = this.config
       return rows * columns
     },

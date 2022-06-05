@@ -1,9 +1,18 @@
 <template>
   <div>
-    <HeaderBar :user="user"/>
-    <Board v-if="user" />
+    <HeaderBar
+      :user="user"
+      @toggleResults="toggleResults"
+    />
+    <Board
+      v-if="user"
+      @toggleResults="toggleResults"
+    />
     <LoginForm v-else/>
-    <ResultList />
+    <ResultList
+      class="results-frame"
+      v-if="user && displayResults"
+    />
   </div>
 </template>
 
@@ -21,6 +30,14 @@ export default {
     Board,
     ResultList,
   },
+  data: {
+    displayResults: false,
+  },
+  methods: {
+    toggleResults(value) {
+      this.displayResults = value !== undefined ? value : !this.displayResults
+    }
+  },
   meteor: {
     user() {
       const user = Meteor.user()
@@ -35,5 +52,15 @@ export default {
     font-family: sans-serif;
     margin: 0;
     max-width: 800px;
+  }
+  .results-frame {
+    position: absolute;
+    top: 40px;
+    left: 100px;
+    z-index: 9999;
+    background-color: rgb(220, 220, 220);
+    padding: 10px;
+    border-radius: 15px;
+    width: 300px;
   }
 </style>

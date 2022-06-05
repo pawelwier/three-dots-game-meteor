@@ -11,6 +11,7 @@ export default {
   methods: {
     onLogout() {
       Meteor.logout()
+      this.$emit('hideResults')
     },
   },
 }
