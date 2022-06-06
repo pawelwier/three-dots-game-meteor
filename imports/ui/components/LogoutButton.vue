@@ -1,5 +1,8 @@
 <template>
-  <button @click="onLogout">
+  <button 
+    class="btn btn-header"
+    @click="onLogout"
+  >
     Logout
   </button>
 </template>
@@ -16,7 +19,3 @@ export default {
   },
 }
 </script>
-
-<style>
-
-</style>

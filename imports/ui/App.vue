@@ -63,4 +63,20 @@ export default {
     border-radius: 15px;
     width: 300px;
   }
+  .btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .btn-header {
+    background-color: rgb(214, 214, 214);
+    padding: 4px 8px;
+  }
+  .btn-header:hover {
+    background-color: rgb(35, 35, 35);
+    color: #FFF;
+  }
+  .btn-header:active {
+    color: #000;
+  }
 </style>

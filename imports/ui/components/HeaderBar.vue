@@ -10,7 +10,12 @@
       Three dots
     </h2>
     <div v-if="user">
-      <button @click="$emit('toggleResults')">Results</button>
+      <button 
+        class="btn btn-header"
+        @click="$emit('toggleResults')"
+      >
+        Results
+      </button>
       <LogoutButton @hideResults="$emit('toggleResults', false)" />
     </div>
     <div v-else>

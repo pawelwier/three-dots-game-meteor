@@ -21,11 +21,12 @@
           />
         </div>
       </div>
-      <div>
-        {{fieldsHighlighted}} / {{gridSize}} = {{Math.round(fieldsHighlighted / (gridSize) * 100)}}%
-        moves: {{config.moves}}
+      <div class="game-info-restart">
+        <div>
+          {{gameInfo}}
+        </div>
+        <RefreshGameButton @newGame="onGameRestarted" />
       </div>
-      <RefreshGameButton @hideResults="$emit('toggleResults', false)" />
     </div>
   </div>
 </template>
@@ -45,10 +46,19 @@ export default {
   data() {
     return {
       isSelected: null,
+      isActive: true,
+      gameInfoMessage: '',
+    }
+  },
+  computed: {
+    gameInfo() {
+      const gameProgress = `${this.fieldsHighlighted} / ${this.gridSize} = ${Math.round(this.fieldsHighlighted / (this.gridSize) * 100)}%, moves: ${this.config.moves}`
+      return this.isActive ? gameProgress : this.gameInfoMessage
     }
   },
   methods: {
     onDotClick(field) {
+      if (!this.isActive) return
       if (!this.isSelected) {
         this.isSelected = field
         return
@@ -65,8 +75,16 @@ export default {
       this.checkBoardComplete()
     },
     checkBoardComplete() {
-      Meteor.call('game.completeGame')
+      Meteor.call('game.completeGame', (err, response) => {
+        if (!response) return
+        this.isActive = false
+        this.gameInfoMessage = `You completed the game in ${response.points} moves.`
+      })
     },
+    onGameRestarted() {
+      this.$emit('toggleResults', false)
+      this.isActive = true
+    }
   },
   meteor: {
     $subscribe: {
@@ -118,5 +136,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+  }
+  .game-info-restart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
   }
 </style>

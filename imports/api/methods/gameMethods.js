@@ -32,17 +32,14 @@ Meteor.methods({
   'game.completeGame'() {
     const config = Meteor.call('config.getGameConfig')
     const {moves, mode, rows, columns} = config
-    
-    const h = Meteor.call('field.getHighlightCount')
-    console.log(h)
-    console.log(rows, columns)
-
-    if (rows * columns !== h) return
-
-    addResult({
+    const highlightCount = Meteor.call('field.getHighlightCount')
+    if (rows * columns !== highlightCount) return
+    const finalResult = {
       points: moves,
       player: Meteor.user(),
       mode: mode || 0,
-    })
+    }
+    addResult(finalResult)
+    return finalResult
   },
 })
