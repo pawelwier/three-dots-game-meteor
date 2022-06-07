@@ -23,17 +23,17 @@ export default {
 </script>
 
 <style>
-  .game-btn {
-    background-color: rgb(87, 87, 87);
-    color: #FFF;
-    font-size: 18px;
-    padding: 6px 30px;
-  }
-  .game-btn:hover {
-    background-color: rgb(141, 141, 141);
-    color: #000;
-  }
-  .game-btn:active {
-    color: #FFF;
-  }
+.game-btn {
+  background-color: rgb(87, 87, 87);
+  color: #FFF;
+  font-size: 18px;
+  padding: 6px 30px;
+}
+.game-btn:hover {
+  background-color: rgb(141, 141, 141);
+  color: #000;
+}
+.game-btn:active {
+  color: #FFF;
+}
 </style>

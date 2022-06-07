@@ -39,44 +39,59 @@ export default {
     }
   },
   meteor: {
-    user() {
-      const user = Meteor.user()
-      return user ? user.emails[0].address : null
+    user() { 
+      return Meteor.user()
     }
   },
 }
 </script>
 
 <style>
-  body {
-    font-family: sans-serif;
-    margin: 0;
-    max-width: 800px;
-  }
-  .results-frame {
-    position: absolute;
-    top: 40px;
-    left: 100px;
-    z-index: 9999;
-    background-color: rgb(220, 220, 220);
-    padding: 10px;
-    border-radius: 15px;
-    width: 300px;
-  }
-  .btn {
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-  }
-  .btn-header {
-    background-color: rgb(214, 214, 214);
-    padding: 4px 8px;
-  }
-  .btn-header:hover {
-    background-color: rgb(35, 35, 35);
-    color: #FFF;
-  }
-  .btn-header:active {
-    color: #000;
-  }
+body {
+  font-family: sans-serif;
+  margin: 0;
+  max-width: 800px;
+}
+input[type=text],
+input[type=password] {
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+input[type=text]:active,
+input[type=password]:active {
+  border: none;
+  outline: none;
+}
+input[type=text]:focus,
+input[type=password]:focus {
+  background-color: rgb(241, 241, 241);
+}
+.results-frame {
+  position: absolute;
+  top: 40px;
+  left: 100px;
+  z-index: 9999;
+  background-color: rgb(220, 220, 220);
+  padding: 10px;
+  border-radius: 15px;
+  width: 300px;
+}
+.btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.btn-header {
+  background-color: rgb(214, 214, 214);
+  padding: 4px 8px;
+}
+.btn-header:hover {
+  background-color: rgb(35, 35, 35);
+  color: #FFF;
+}
+.btn-header:active {
+  color: #000;
+}
 </style>

@@ -12,4 +12,11 @@ Meteor.methods({
       password,
     })
   },
+  'auth.editUser'(_id, data) {
+    Meteor.users.update({_id}, {
+      $set: {
+        ...data,
+      }
+    })
+  }
 })

@@ -57,40 +57,29 @@ export default {
 </script>
 
 <style>
-  .login-form-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .login-form {
-    background-color: rgb(216, 222, 220);
-    padding: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    line-height: 1.6em;
-  }
-  .login-form input {
-    border: none;
-    outline:none;
-  }
-  .login-form input:active {
-    border: none;
-    outline:none;
-  }
-  .login-form input[type=text]:focus {
-    background-color: rgb(241, 241, 241);
-  }
-  .login-btn {
-    background-color: rgb(87, 87, 87);
-    color: #FFF;
-    font-size: 14px;
-    padding: 4px 30px;
-  }
-  .login-btn:hover {
-    background-color: rgb(141, 141, 141);
-    color: #000;
-  }
-  .login-btn:active {
-    color: #FFF;
-  }
+.login-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-form {
+  background-color: rgb(216, 222, 220);
+  padding: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 1.6em;
+}
+.login-btn {
+  background-color: rgb(87, 87, 87);
+  color: #FFF;
+  font-size: 14px;
+  padding: 4px 30px;
+}
+.login-btn:hover {
+  background-color: rgb(141, 141, 141);
+  color: #000;
+}
+.login-btn:active {
+  color: #FFF;
+}
 </style>

@@ -117,32 +117,32 @@ export default {
 </script>
 
 <style>
-  .fields-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-  .fields-container {
-    display: grid;
-    grid-template-columns: repeat(8, 46px);
-    grid-template-rows: repeat(6, 46px);
-  }
-  .highlighted {
-    background-color: black;
-  }
-  .selected {
-    border: 3px solid rgb(201, 186, 52);
-  }
-  .dot-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-  .game-info-restart {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
+.fields-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.fields-container {
+  display: grid;
+  grid-template-columns: repeat(8, 46px);
+  grid-template-rows: repeat(6, 46px);
+}
+.highlighted {
+  background-color: black;
+}
+.selected {
+  border: 3px solid rgb(201, 186, 52);
+}
+.dot-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.game-info-restart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
 </style>

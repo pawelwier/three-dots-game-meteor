@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import {Meteor} from 'meteor/meteor'
 import {ResultCollection} from '../../db/collections/ResultCollection'
 import ResultRecord from './ResultRecord.vue'
 
